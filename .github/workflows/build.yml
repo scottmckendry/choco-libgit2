@@ -47,7 +47,7 @@ jobs:
 
             - name: update verification placeholders
               run: |
-                  $verificationContent = Get-Content .\VERIFICATION
+                  $verificationContent = Get-Content .\VERIFICATION.txt
                   $verificationContent = $verificationContent -replace '<EXE_CHECKSUM>', $env:EXE_CHECKSUM
                   $verificationContent = $verificationContent -replace '<DLL_CHECKSUM>', $env:DLL_CHECKSUM
                   $verificationContent = $verificationContent -replace '<VERSION>', $env:VERSION
