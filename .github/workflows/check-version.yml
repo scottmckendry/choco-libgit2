@@ -1,5 +1,6 @@
 name: Get latest libgit2 release version
 on:
+  workflow_dispatch:
   schedule:
     - cron:  '0 10 * * *'
 jobs:
