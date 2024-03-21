@@ -1,0 +1,39 @@
+name: Build & Release
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "release-versions/**"
+
+jobs:
+    build:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: install dependencies
+              run: |
+                  choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+                  choco install -y mingw
+
+            - name: clone libgit2
+              run: |
+                  git clone https://github.com/libgit2/libgit2.git
+
+            - name: build libgit2
+              run: |
+                  cd libgit2
+                  mkdir build
+                  cd build
+                  cmake -G "MinGW Makefiles" ..
+                  cmake --build .
+
+            - name: copy built files
+              run: |
+                  mkdir tools
+                  cp libgit2/build/libgit2.dll tools
+                  cp libgit2/build/git2.exe tools
+                  cp libgit2/COPYING tools/LICENSE.txt
+                  ls tools
