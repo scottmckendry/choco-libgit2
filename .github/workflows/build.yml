@@ -36,8 +36,8 @@ jobs:
 
             - name: copy built files
               run: |
-                  cp libgit2/build/libgit2.dll bin
-                  cp libgit2/build/git2.exe bin
+                  cp libgit2/libgit2-$env:VERSION/build/libgit2.dll bin
+                  cp libgit2/libgit2-$env:VERSION/build/git2.exe bin
                   ls bin
 
             - name: get checksums
