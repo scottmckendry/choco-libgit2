@@ -21,7 +21,7 @@ jobs:
             - name: download libgit2 release source
               run: |
                   $version = $(Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
-                  echo "VERSION=$version" >> $GITHUB_ENV
+                  "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
                   Invoke-WebRequest -Uri "https://github.com/libgit2/libgit2/archive/v$($version).zip" -OutFile "libgit2.zip"
                   Expand-Archive -Path "libgit2.zip" -DestinationPath "libgit2"
 
@@ -42,8 +42,8 @@ jobs:
 
             - name: get checksums
               run: |
-                  echo "EXE_CHECKSUM=$(Get-FileHash bin/git2.exe -Algorithm SHA256).Hash" >> $GITHUB_ENV
-                  echo "DLL_CHECKSUM=$(Get-FileHash bin/libgit2.dll -Algorithm SHA256).Hash" >> $GITHUB_ENV
+                  "EXE_CHECKSUM=$(Get-FileHash bin/git2.exe -Algorithm SHA256).Hash" | Out-File -FilePath $env:GITHUB_ENV -Append
+                  "DLL_CHECKSUM=$(Get-FileHash bin/libgit2.dll -Algorithm SHA256).Hash" | Out-File -FilePath $env:GITHUB_ENV -Append
 
             - name: update verification placeholders
               run: |
