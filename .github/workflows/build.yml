@@ -42,8 +42,8 @@ jobs:
 
             - name: get checksums
               run: |
-                  "EXE_CHECKSUM=$(Get-FileHash bin/git2.exe -Algorithm SHA256).Hash" | Out-File -FilePath $env:GITHUB_ENV -Append
-                  "DLL_CHECKSUM=$(Get-FileHash bin/libgit2.dll -Algorithm SHA256).Hash" | Out-File -FilePath $env:GITHUB_ENV -Append
+                  "EXE_CHECKSUM=$($(Get-FileHash bin/git2.exe -Algorithm SHA256).Hash.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Append
+                  "DLL_CHECKSUM=$($(Get-FileHash bin/libgit2.dll -Algorithm SHA256).Hash.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Append
 
             - name: update verification placeholders
               run: |
