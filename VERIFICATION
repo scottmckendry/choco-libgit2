@@ -1,0 +1,28 @@
+VERIFICATION
+Verification is intended to assist the Chocolatey moderators and community
+in verifying that this package's contents are trustworthy.
+
+The embedded software have been built from source available at the following
+location on https://github.com/libgit2/libgit2/archive/<VERSION>.zip
+and can be verified by doing the following:
+
+1. Download the following:
+    https://github.com/libgit2/libgit2/archive/<version>.zip
+2. Unzip the file to a directory and navigate to it.
+3. Run the following commands to build the software:
+    mkdir build
+    cd build
+    cmake -G "MinGW Makefiles" ..
+    cmake --build .
+2. Get the checksum of the built .exe and .dll using one of the following methods:
+  - Using powershell function 'Get-FileHash'
+  - Use chocolatey utility 'checksum.exe'
+3. The checksums should match the following:
+
+  checksum type: sha256
+  file: git2.exe
+  checksum: <EXE_CHECKSUM>
+
+  checksum type: sha256
+  file: libgit2.dll
+  checksum: <DLL_CHECKSUM>
