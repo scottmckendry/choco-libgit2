@@ -42,3 +42,9 @@ jobs:
               run: |
                   $version = (Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
                   choco pack --version $version
+
+            - name: push chocolatey package
+              run: |
+                  $package = Get-ChildItem *.nupkg
+                  choco apikey --key ${{ secrets.CHOCO_KEY }} --source https://push.chocolatey.org/
+                  choco push $package --source https://push.chocolatey.org/
