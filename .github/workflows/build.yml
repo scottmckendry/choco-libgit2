@@ -20,8 +20,9 @@ jobs:
 
             - name: download libgit2 release source
               run: |
-                  echo "VERSION=$(Get-Content .\release-versions\libgit2.txt)" >> $GITHUB_ENV
-                  Invoke-WebRequest -Uri "https://github.com/libgit2/libgit2/archive/v$($env:VERSION).zip" -OutFile "libgit2.zip"
+                  $version = Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
+                  echo "VERSION=$version" >> $GITHUB_ENV
+                  Invoke-WebRequest -Uri "https://github.com/libgit2/libgit2/archive/v$version).zip" -OutFile "libgit2.zip"
                   Expand-Archive -Path "libgit2.zip" -DestinationPath "libgit2"
 
             - name: build libgit2
