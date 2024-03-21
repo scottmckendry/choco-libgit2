@@ -33,8 +33,14 @@ jobs:
 
             - name: copy built files
               run: |
-                  mkdir tools
-                  cp libgit2/build/libgit2.dll tools
-                  cp libgit2/build/git2.exe tools
-                  cp libgit2/COPYING tools/LICENSE.txt
+                  mkdir bin
+                  cp libgit2/build/libgit2.dll bin
+                  cp libgit2/build/git2.exe bin
                   ls tools
+                  # clean up
+                  rm libgit2 -Recurse -Force
+
+            - name: build chocolatey package
+              run: |
+                  $version = (Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
+                  choco pack --version $version
