@@ -23,5 +23,6 @@ jobs:
         run: |
           git config --global user.name 'Scott McKendry'
           git config --global user.email '39483124+scottmckendry@users.noreply.github.com'
-          git commit -am "chore: new release version"
+          git add -A
+          git commit -m "chore: new release version"
           git push
