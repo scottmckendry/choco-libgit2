@@ -33,7 +33,6 @@ jobs:
 
             - name: copy built files
               run: |
-                  mkdir bin
                   cp libgit2/build/libgit2.dll bin
                   cp libgit2/build/git2.exe bin
                   ls tools
