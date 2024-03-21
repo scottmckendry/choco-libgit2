@@ -17,7 +17,12 @@ jobs:
                   jq -r ".tag_name" > release-versions/libgit2.txt
             - name: Check for modified files
               id: git-check
-              run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+              run: |
+                  if [ -z "`git status --porcelain`" ]; then
+                      echo "modified=false" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "modified=true" >> "$GITHUB_OUTPUT"
+                  fi
             - name: Commit latest release version
               if: steps.git-check.outputs.modified == 'true'
               run: |
