@@ -20,8 +20,8 @@ enclosed in quotation marks, you should use an editor that supports UTF-8, not t
     <files>
         <file src="bin/git2.exe" target="tools/git2.exe" />
         <file src="bin/libgit2.dll" target="tools/libgit2.dll" />
-        <file src="LICENSE" target="." />
-        <file src="VERIFICATION" target="." />
+        <file src="LICENSE" target="LICENSE" />
+        <file src="VERIFICATION" target="VERIFICATION" />
         <file src="bin/chocolateyInstall.ps1" target="tools/chocolateyInstall.ps1" />
     </files>
 </package>
