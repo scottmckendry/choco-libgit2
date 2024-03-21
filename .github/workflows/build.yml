@@ -1,0 +1,50 @@
+name: Build & Release
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "release-versions/**"
+
+jobs:
+    build:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: install dependencies
+              run: |
+                  choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+                  choco install -y mingw
+
+            - name: clone libgit2
+              run: |
+                  git clone https://github.com/libgit2/libgit2.git
+
+            - name: build libgit2
+              run: |
+                  cd libgit2
+                  mkdir build
+                  cd build
+                  cmake -G "MinGW Makefiles" ..
+                  cmake --build .
+
+            - name: copy built files
+              run: |
+                  cp libgit2/build/libgit2.dll bin
+                  cp libgit2/build/git2.exe bin
+                  ls bin
+                  # clean up
+                  rm libgit2 -Recurse -Force
+
+            - name: build chocolatey package
+              run: |
+                  $version = (Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
+                  choco pack --version $version
+
+            - name: push chocolatey package
+              run: |
+                  $package = Get-ChildItem *.nupkg
+                  choco apikey --key ${{ secrets.CHOCO_KEY }} --source https://push.chocolatey.org/
+                  choco push $package --source https://push.chocolatey.org/
