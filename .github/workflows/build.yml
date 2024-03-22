@@ -18,13 +18,17 @@ jobs:
                   choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
                   choco install -y mingw
 
-            - name: clone libgit2
+            - name: download libgit2 release source
               run: |
-                  git clone https://github.com/libgit2/libgit2.git
+                  $version = $(Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
+                  "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+                  Invoke-WebRequest -Uri "https://github.com/libgit2/libgit2/archive/v$($version).zip" -OutFile "libgit2.zip"
+                  Expand-Archive -Path "libgit2.zip" -DestinationPath "libgit2"
 
             - name: build libgit2
               run: |
                   cd libgit2
+                  cd libgit2-$env:VERSION
                   mkdir build
                   cd build
                   cmake -G "MinGW Makefiles" ..
@@ -32,16 +36,26 @@ jobs:
 
             - name: copy built files
               run: |
-                  cp libgit2/build/libgit2.dll bin
-                  cp libgit2/build/git2.exe bin
+                  cp libgit2/libgit2-$env:VERSION/build/libgit2.dll bin
+                  cp libgit2/libgit2-$env:VERSION/build/git2.exe bin
                   ls bin
-                  # clean up
-                  rm libgit2 -Recurse -Force
+
+            - name: get checksums
+              run: |
+                  "EXE_CHECKSUM=$($(Get-FileHash bin/git2.exe -Algorithm SHA256).Hash.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Append
+                  "DLL_CHECKSUM=$($(Get-FileHash bin/libgit2.dll -Algorithm SHA256).Hash.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+            - name: update verification placeholders
+              run: |
+                  $verificationContent = Get-Content .\VERIFICATION.txt
+                  $verificationContent = $verificationContent -replace '<EXE_CHECKSUM>', $env:EXE_CHECKSUM
+                  $verificationContent = $verificationContent -replace '<DLL_CHECKSUM>', $env:DLL_CHECKSUM
+                  $verificationContent = $verificationContent -replace '<VERSION>', $env:VERSION
+                  Set-Content .\VERIFICATION.txt $verificationContent -Force
 
             - name: build chocolatey package
               run: |
-                  $version = (Get-Content .\release-versions\libgit2.txt).Split("v")[-1]
-                  choco pack --version $version
+                  choco pack --version $env:VERSION
 
             - name: push chocolatey package
               run: |
