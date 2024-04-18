@@ -11,6 +11,7 @@ enclosed in quotation marks, you should use an editor that supports UTF-8, not t
         <projectUrl>https://libgit2.org/</projectUrl>
         <licenseUrl>https://github.com/libgit2/libgit2/blob/main/COPYING</licenseUrl>
         <projectSourceUrl>https://github.com/libgit2/libgit2</projectSourceUrl>
+        <packageSourceUrl>https://github.com/libgit2/libgit2</packageSourceUrl>
         <bugTrackerUrl>https://github.com/libgit2/libgit2/issues</bugTrackerUrl>
         <tags>libgit2 git</tags>
         <summary>A cross-platform, linkable library implementation of Git that you can use in your application.</summary>
