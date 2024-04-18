@@ -16,6 +16,7 @@ enclosed in quotation marks, you should use an editor that supports UTF-8, not t
         <summary>A cross-platform, linkable library implementation of Git that you can use in your application.</summary>
         <description>libgit2 is a portable, pure C implementation of the Git core methods provided as a re-entrant linkable library with a solid API, allowing you to write native speed custom Git applications in any language that supports C bindings.</description>
         <releaseNotes>https://github.com/libgit2/libgit2/releases</releaseNotes>
+        <iconUrl>https://avatars.githubusercontent.com/u/394745?s=200&v=4</iconUrl>
     </metadata>
     <files>
         <file src="bin/git2.exe" target="tools/git2.exe" />
