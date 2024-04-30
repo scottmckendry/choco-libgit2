@@ -20,7 +20,6 @@ enclosed in quotation marks, you should use an editor that supports UTF-8, not t
         <iconUrl>https://avatars.githubusercontent.com/u/394745?s=200&v=4</iconUrl>
     </metadata>
     <files>
-        <file src="bin/git2.exe" target="tools/git2.exe" />
         <file src="bin/libgit2.dll" target="tools/libgit2.dll" />
         <file src="LICENSE.txt" target="" />
         <file src="VERIFICATION.txt" target="tools/VERIFICATION.txt" />
