@@ -24,5 +24,6 @@ enclosed in quotation marks, you should use an editor that supports UTF-8, not t
         <file src="LICENSE.txt" target="" />
         <file src="VERIFICATION.txt" target="tools/VERIFICATION.txt" />
         <file src="bin/chocolateyInstall.ps1" target="tools/chocolateyInstall.ps1" />
+        <file src="bin/chocolateyUninstall.ps1" target="tools/chocolateyUninstall.ps1" />
     </files>
 </package>
