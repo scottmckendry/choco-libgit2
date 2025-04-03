@@ -9,7 +9,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                  token: ${{ secrets.GH_TOKEN }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
             - name: Fetch release version
               run: |
                   mkdir -p release-versions
