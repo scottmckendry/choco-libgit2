@@ -1,33 +1,30 @@
 name: Get latest libgit2 release version
 on:
-    workflow_dispatch:
-    schedule:
-        - cron: "0 10 * * *"
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * *"
 jobs:
-    get-version:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-            - name: Fetch release version
-              run: |
-                  mkdir -p release-versions
-                  curl -sL https://api.github.com/repos/libgit2/libgit2/releases/latest | \
-                  jq -r ".tag_name" > release-versions/libgit2.txt
-            - name: Check for modified files
-              id: git-check
-              run: |
-                  if [ -z "`git status --porcelain`" ]; then
-                      echo "modified=false" >> "$GITHUB_OUTPUT"
-                  else
-                      echo "modified=true" >> "$GITHUB_OUTPUT"
-                  fi
-            - name: Commit latest release version
-              if: steps.git-check.outputs.modified == 'true'
-              run: |
-                  git config --global user.name 'Scott McKendry'
-                  git config --global user.email '39483124+scottmckendry@users.noreply.github.com'
-                  git add -A
-                  git commit -m "chore: new release version"
-                  git push
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch release version
+        run: |
+          mkdir -p release-versions
+          curl -sL https://api.github.com/repos/libgit2/libgit2/releases/latest | \
+          jq -r ".tag_name" > release-versions/libgit2.txt
+      - name: Check for modified files
+        id: git-check
+        run: |
+          if [ -z "`git status --porcelain`" ]; then
+              echo "modified=false" >> "$GITHUB_OUTPUT"
+          else
+              echo "modified=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Commit latest release version
+        if: steps.git-check.outputs.modified == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "chore: new release version"
